@@ -9,13 +9,18 @@ var connection = mysql.createConnection({
   host     : process.env.IP,
   user     : process.env.C9_USER,
   password : '',
-  database : 'addressbook'
+  database : 'mysql'
 });
 
-connection.queryAsync("SELECT * FROM Account").then(
-    function(results) {
-    	var rows = results[0];
-    	// do something with rows...
+connection.queryAsync('SHOW DATABASES')
+.then(
+    function(result) {
+        var rows = result[0];
+        console.log( ("\nThe databases in this mysql instance are: ").yellow );
+        rows.forEach(function(ele, ind){
+          console.log( "\t" + ele.Database.green );
+        });
+        return rows;
     }
 ).finally(
     function() {
